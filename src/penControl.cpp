@@ -17,12 +17,12 @@ penControl::penControl(LPC_SCT_T * pSCT, CHIP_SWM_PIN_MOVABLE pSWM, int port, in
 	pSCT->CTRL_L					|= ((72-1) << 5);			// Set clock time to 72MHz/72=1MHz
 
 	pSCT->MATCHREL[0].L 			= 20000-1;					// Set the frequency 1MHz/20000 = 50Hz match frequency
-	pSCT->MATCHREL[1].L         	= 1000 + 180 * multiplier;	// Sets the duty cycle
+	pSCT->MATCHREL[1].L				= 1000 + 180 * multiplier;	// Sets the duty cycle
 
 	pSCT->EVENT[0].STATE 			= 0xFFFFFFFF;				// Event 0 happens in all states
-	pSCT->EVENT[0].CTRL 			= (1 << 12);				// Match 0 condition
+	pSCT->EVENT[0].CTRL				= (1 << 12);				// Match 0 condition
 
-	pSCT->EVENT[1].STATE 			= 0xFFFFFFFF;				// Event 1 happens in all states
+	pSCT->EVENT[1].STATE			= 0xFFFFFFFF;				// Event 1 happens in all states
 	pSCT->EVENT[1].CTRL				= (1 << 0) | (1 << 12);		// Match 1 condition
 
 	pSCT->OUT[0].SET				= (1 << 0);					// Event 0 sets current as high
@@ -46,6 +46,5 @@ void penControl::setPenPosition(uint8_t position){
 
 /*Return pen position, should be 0 - 255*/
 uint8_t penControl::getPenPosition(){
-	//savedPenPos = (pSCT->MATCHREL[1].L - 1000) / multiplier;	//Get current duty cycle
 	return savedPenPos;
 }
