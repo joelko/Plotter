@@ -20,7 +20,6 @@ class penControl {
 public:
 	penControl(LPC_SCT_T * pSCT, CHIP_SWM_PIN_MOVABLE pSWM, int port, int pin);
 	virtual ~penControl();
-	void start();
 	void setPenPosition(uint8_t);
 	uint8_t getPenPosition();
 private:
