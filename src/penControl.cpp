@@ -6,6 +6,8 @@
  */
 
 #include "penControl.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 penControl::penControl(LPC_SCT_T * pSCT, CHIP_SWM_PIN_MOVABLE pSWM, int port, int pin) {
 	this->pSCT = pSCT;
@@ -16,10 +18,10 @@ penControl::penControl(LPC_SCT_T * pSCT, CHIP_SWM_PIN_MOVABLE pSWM, int port, in
 	pSCT->CONFIG					|= (1 << 17);				// Two 16-bit timers, auto limit
 	pSCT->CTRL_L					|= ((72-1) << 5);			// Set clock time to 72MHz/72=1MHz
 
-	pSCT->MATCHREL[0].L 			= 20000-1;					// Set the frequency 1MHz/20000 = 50Hz match frequency
+	pSCT->MATCHREL[0].L				= 20000-1;					// Set the frequency 1MHz/20000 = 50Hz match frequency
 	pSCT->MATCHREL[1].L				= 1000 + 180 * multiplier;	// Sets the duty cycle
 
-	pSCT->EVENT[0].STATE 			= 0xFFFFFFFF;				// Event 0 happens in all states
+	pSCT->EVENT[0].STATE			= 0xFFFFFFFF;				// Event 0 happens in all states
 	pSCT->EVENT[0].CTRL				= (1 << 12);				// Match 0 condition
 
 	pSCT->EVENT[1].STATE			= 0xFFFFFFFF;				// Event 1 happens in all states
