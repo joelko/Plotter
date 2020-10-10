@@ -41,6 +41,7 @@ penControl::~penControl() {
 void penControl::setPenPosition(uint8_t position){
 	savedPenPos = position;
 	pSCT->MATCHREL[1].L = 1000 + position * multiplier;			// Change duty cycle to change pen position
+	vTaskDelay(100);
 }
 
 /*Return pen position, should be 0 - 255*/
